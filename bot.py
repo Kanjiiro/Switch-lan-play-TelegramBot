@@ -19,9 +19,10 @@ def on_chat_message(msg):
     print('Chat:', content_type, chat_type, chat_id)
 
     if content_type != 'text':
-        bot.sendMessage(from_id, text='/servers')
+        bot.sendMessage(from_id, text='Use /servers')
         return 
-
+    if msg['text'] == "/start":
+        bot.sendMessage(from_id, text='Hi, write /servers to list the servers.')
     command = msg['text']
     if command == '/servers':
         markup = InlineKeyboardMarkup(inline_keyboard=[
