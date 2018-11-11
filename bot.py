@@ -11,9 +11,11 @@ from subprocess import Popen, PIPE
 TOKEN = ''
 message_with_inline_keyboard = None
 status= 0
-
+#choose form eth0/wlan0 or other interfaces 
+network_interface= eth0
 def connect(server_ip):
-    os.system("sudo ./lan-play --relay-server-addr "+server_ip+" --netif eth0 &")
+    global network_interface
+    os.system("sudo ./lan-play --relay-server-addr "+server_ip+" --netif "+network_interface+" &")
 def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     print('Chat:', content_type, chat_type, chat_id)
