@@ -11,3 +11,6 @@ This project is a small script to choose witch server to connect using lan-play.
 * Choose the network interface you prefer
 * Put the lan-play in the same folder of bot.py
 * Enjoy
+# Working on:
+* Ubuntu
+* Raspbian
