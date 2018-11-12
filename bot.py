@@ -20,10 +20,7 @@ def connect(server_ip):
     global connected
     global process
     if process != None:
-        os.system('sudo ip link set eth0 down')
-        os.system('sudo ip link set eth0 up')
-        os.system('sudo service network-manager restart')
-        time.sleep(4)
+        os.system('sudo killall -9 lan-play')
         process = None
     process = subprocess.Popen("sudo" + "  ./lan-play " + "--relay-server-addr " + server_ip + " --netif " + network_interface + " &", shell=True)
 
