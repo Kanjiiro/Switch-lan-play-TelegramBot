@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time, sys, telepot, subprocess
+import time, sys, telepot, subprocess, requests
 from telepot.loop import MessageLoop
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -14,15 +14,47 @@ process= None
 
 network_interface='eth0'
 
+servers=['35.236.10.223',
+'nxlan.duckdns.org',
+'switch.lan-play.com',
+'relay1.fadx.co.uk',
+'relay2.fadx.co.uk',
+'switch.glaciergaming.co.uk',
+'switch.homelab.tech',
+'bandits.duckdns.org',
+'memehouse.de',
+'relay.it-cybergate.club',
+'slp.rush-hour.wo.tc',
+'lithium2g.ddns.net']
+
+
+
+def info():
+    global servers
+    users_online = []
+    for x in servers:
+    	try:
+	    	users_online.append(x+ " has "+requests.get("http://"+ x +":11451/info").text[10:12].replace(",","") + " players\n")
+    	except requests.exceptions.RequestException:
+    		users_online.append(x+" is down\n")
+	    	pass
+    return " ".join(str(x) for x in users_online)
+
+
 def connect(server_ip):
-    global status
     global network_interface
-    global connected
     global process
     if process != None:
         os.system('sudo killall -9 lan-play')
         process = None
     process = subprocess.Popen("sudo" + "  ./lan-play " + "--relay-server-addr " + server_ip + " --netif " + network_interface + " &", shell=True)
+
+
+
+
+
+
+
 
 def on_chat_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -34,6 +66,11 @@ def on_chat_message(msg):
     if msg['text'] == "/start":
         bot.sendMessage(chat_id, text='Hi, write /servers to list the servers.')
     command = msg['text']
+
+    if command == '/list':
+    	bot.sendMessage(chat_id,text=info())
+
+
     if command == '/servers':
         markup = InlineKeyboardMarkup(inline_keyboard=[
                      [InlineKeyboardButton(text='1)  35.236.10.223:11451 US 🇺🇸              ', callback_data='1')],
