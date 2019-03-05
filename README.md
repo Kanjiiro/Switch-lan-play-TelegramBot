@@ -1,6 +1,3 @@
-This project is a small script to choose witch server to connect using lan-play.
-
-
 # Requirements:
 * lan-play compiled
 * telepot (<code>pip3 install telepot</code>)
