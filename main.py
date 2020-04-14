@@ -11,6 +11,7 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboar
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.namedtuple import InlineQueryResultArticle, InlineQueryResultPhoto, InputTextMessageContent
 
+
 message_with_inline_keyboard = None
 
 servers = []
@@ -111,15 +112,27 @@ def on_callback_query(msg):
                                                            ])
             bot.editMessageText(telepot.message_identifier(
                 message_with_inline_keyboard), 'Server list updated', reply_markup=markup)
-#    elif data=='disconnect':
-
+    elif data=='disconnect':
+        os.system('killall lan-play-linux')
+        markup = InlineKeyboardMarkup(inline_keyboard=[
+            [ dict(text='Servers', callback_data='servers')],
+        ])
+        bot.editMessageText(telepot.message_identifier(
+            message_with_inline_keyboard), 'Disconnected', reply_markup=markup)
     else:
         markup = InlineKeyboardMarkup(inline_keyboard=[
             [dict(text='Disconnect', callback_data='disconnect'),
              dict(text='Servers', callback_data='servers')],
         ])
+
+
+       # os.system("./lan-play-linux " + "--relay-server-addr " + data)
+        #subprocess.call("./lan-play-linux " + "--relay-server-addr " + data + " &")
+        out=subprocess.Popen(["./lan-play-linux --relay-server-addr {0} &".format(data)], stdout=subprocess.PIPE,stderr=None, shell=True)
+       
         bot.editMessageText(telepot.message_identifier(
-            message_with_inline_keyboard), 'Hi, choose Refresh to update the servers online,or Servers to get them', reply_markup=markup)
+            message_with_inline_keyboard),'Diocane',  reply_markup=markup)
+        #print(out.communicate()[0])
 
 
 def on_chosen_inline_result(msg):
