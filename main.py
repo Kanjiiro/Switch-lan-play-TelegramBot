@@ -131,7 +131,7 @@ def on_callback_query(msg):
         #out=subprocess.Popen(["./lan-play-linux --relay-server-addr {0} &".format(data)], stdout=subprocess.PIPE,stderr=None, shell=True)
          subprocess.Popen(["sudo ./lan-play-linux --relay-server-addr {0}".format(data)], stdout=subprocess.PIPE,stderr=None,shell=True)
         bot.editMessageText(telepot.message_identifier(
-            message_with_inline_keyboard),'Diocane',  reply_markup=markup)
+            message_with_inline_keyboard),'You are connected',  reply_markup=markup)
         #print(out.communicate()[0])
 
 
