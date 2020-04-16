@@ -16,7 +16,7 @@ message_with_inline_keyboard = None
 
 servers = []
 
-# user=''
+
 
 
 def refresh_servers():
@@ -24,18 +24,10 @@ def refresh_servers():
     try:
         output = subprocess.check_output('python3 get_servers.py', shell=True)
     except subprocess.CalledProcessError:
-        #        bot.sendMessage(
-        #            chat_id, 'Something went wrong while calling get_server.py')
         None
     finally:
         if output != "Done ":
-            #            out = bot.sendMessage(chat_id, output)
-            #            time.sleep(2)
-            #            bot.deleteMessage(telepot.message_identifier(out))
-            #            bot.sendMessage(chat_id, 'Press /servers to get the list')
             ok = True
-#            bot.sendMessage(
-#                chat_id, 'Something went wrong while getting the servers')
         return ok
 
 
@@ -64,8 +56,6 @@ def on_chat_message(msg):
     command = msg['text']
 
     if command == '/start':
-     #       bot.sendMessage(
-     #           chat_id, 'Hi, write /refresh to update the servers online, then write /servers to get them')
         markup = InlineKeyboardMarkup(inline_keyboard=[
             [dict(text='Refresh', callback_data='refresh'),
              dict(text='Servers', callback_data='servers')],
@@ -73,18 +63,6 @@ def on_chat_message(msg):
 
         message_with_inline_keyboard = bot.sendMessage(
             chat_id, 'Hi, choose Refresh to update the servers online,or Servers to get them', reply_markup=markup)
-
-#    elif command == '/refresh':
-#        bot.sendMessage(chat_id, 'Starting')
-#        refresh_servers(chat_id)
-#
-#    elif command == '/servers':
-#        make_makup()
-#        markup = InlineKeyboardMarkup(inline_keyboard=servers)
-#
-#        message_with_inline_keyboard = bot.sendMessage(
-#            chat_id, 'SERVER IP | PING | REGION', reply_markup=markup)
-
 
 def on_callback_query(msg):
     query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
@@ -96,8 +74,7 @@ def on_callback_query(msg):
         markup = InlineKeyboardMarkup(inline_keyboard=servers)
         bot.editMessageText(telepot.message_identifier(
             message_with_inline_keyboard), 'SERVER IP | PING | REGION', reply_markup=markup)
-#        bot.editMessageReplyMarkup(telepot.message_identifier( message_with_inline_keyboard),  reply_markup=markup)
-
+        
     elif data == 'back':
         markup = InlineKeyboardMarkup(inline_keyboard=[
             [dict(text='Refresh', callback_data='refresh'),
@@ -106,7 +83,6 @@ def on_callback_query(msg):
         bot.editMessageText(telepot.message_identifier(
             message_with_inline_keyboard), 'Hi, choose Refresh to update the servers online,or Servers to get them', reply_markup=markup)
     elif data == 'refresh':
-        #        bot.sendMessage(chat_id, 'Starting')
         if refresh_servers() == True:
             markup = InlineKeyboardMarkup(inline_keyboard=[[dict(text='Servers', callback_data='servers')],
                                                            ])
@@ -125,10 +101,6 @@ def on_callback_query(msg):
              dict(text='Servers', callback_data='servers')],
         ])
 
-
-       # os.system("./lan-play-linux " + "--relay-server-addr " + data)
-        #subprocess.call("./lan-play-linux " + "--relay-server-addr " + data + " &")
-        #out=subprocess.Popen(["./lan-play-linux --relay-server-addr {0} &".format(data)], stdout=subprocess.PIPE,stderr=None, shell=True)
          subprocess.Popen(["sudo ./lan-play-linux --relay-server-addr {0}".format(data)], stdout=subprocess.PIPE,stderr=None,shell=True)
         bot.editMessageText(telepot.message_identifier(
             message_with_inline_keyboard),'You are connected',  reply_markup=markup)
@@ -151,6 +123,5 @@ MessageLoop(bot, {'chat': on_chat_message,
                   'chosen_inline_result': on_chosen_inline_result}).run_as_thread()
 print('Listening ...')
 
-# Keep the program running.
 while 1:
     time.sleep(10)
