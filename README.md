@@ -13,8 +13,9 @@
 * <code>chmod +x lan-play-linux </code>
 
 # Config:
-* Put the telegram token in the variable TOKEN
 * Put the lan-play-linux in the same folder of bot.py
+* On the first run <code>python3 main.py <YOUR TOKEN></code>
+* After the bot creates the token.txt file on your computer just run <code>python3 main.py</code>
 * Enjoy
 
 # Working on:
