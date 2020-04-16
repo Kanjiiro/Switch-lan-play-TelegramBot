@@ -113,7 +113,7 @@ def on_callback_query(msg):
             bot.editMessageText(telepot.message_identifier(
                 message_with_inline_keyboard), 'Server list updated', reply_markup=markup)
     elif data=='disconnect':
-        os.system('killall lan-play-linux')
+        os.system('sudo killall lan-play-linux')
         markup = InlineKeyboardMarkup(inline_keyboard=[
             [ dict(text='Servers', callback_data='servers')],
         ])
@@ -128,8 +128,8 @@ def on_callback_query(msg):
 
        # os.system("./lan-play-linux " + "--relay-server-addr " + data)
         #subprocess.call("./lan-play-linux " + "--relay-server-addr " + data + " &")
-        out=subprocess.Popen(["./lan-play-linux --relay-server-addr {0} &".format(data)], stdout=subprocess.PIPE,stderr=None, shell=True)
-       
+        #out=subprocess.Popen(["./lan-play-linux --relay-server-addr {0} &".format(data)], stdout=subprocess.PIPE,stderr=None, shell=True)
+         subprocess.Popen(["sudo ./lan-play-linux --relay-server-addr {0}".format(data)], stdout=subprocess.PIPE,stderr=None,shell=True)
         bot.editMessageText(telepot.message_identifier(
             message_with_inline_keyboard),'Diocane',  reply_markup=markup)
         #print(out.communicate()[0])
@@ -141,7 +141,7 @@ def on_chosen_inline_result(msg):
     print('Chosen Inline Result:', result_id, from_id, query_string)
 
 
-TOKEN = sys.argv[1]  # get token from command-line
+TOKEN = sys.argv[1]
 
 bot = telepot.Bot(TOKEN)
 answerer = telepot.helper.Answerer(bot)
