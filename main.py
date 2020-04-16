@@ -104,8 +104,6 @@ def on_callback_query(msg):
          subprocess.Popen(["sudo ./lan-play-linux --relay-server-addr {0}".format(data)], stdout=subprocess.PIPE,stderr=None,shell=True)
         bot.editMessageText(telepot.message_identifier(
             message_with_inline_keyboard),'You are connected',  reply_markup=markup)
-        #print(out.communicate()[0])
-
 
 def on_chosen_inline_result(msg):
     result_id, from_id, query_string = telepot.glance(
