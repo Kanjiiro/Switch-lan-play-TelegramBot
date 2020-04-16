@@ -110,8 +110,18 @@ def on_chosen_inline_result(msg):
         msg, flavor='chosen_inline_result')
     print('Chosen Inline Result:', result_id, from_id, query_string)
 
-
-TOKEN = sys.argv[1]
+TOKEN=''
+try:
+    with open('token.txt','r+') as f:
+        read=f.read()
+        if len(read)<45:
+            print('error')
+        else:
+            TOKEN=read[-45:]
+except FileNotFoundError:
+    with open("token.txt",'w+')as f:
+        f.write("Token={0}".format(sys.argv[1]))
+    TOKEN = sys.argv[1]
 
 bot = telepot.Bot(TOKEN)
 answerer = telepot.helper.Answerer(bot)
